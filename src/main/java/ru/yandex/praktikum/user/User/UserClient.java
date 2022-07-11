@@ -7,7 +7,7 @@ import ru.yandex.praktikum.user.BaseSpec;
 import static io.restassured.RestAssured.given;
 
 public class UserClient extends BaseSpec {
-    public final static String APIURL = "/api/auth/";
+    public final static String APIURL = "/auth/";
 
     @Step("Регистрация пользователя")
     public Response create(User user) {
@@ -15,41 +15,41 @@ public class UserClient extends BaseSpec {
                 .spec(getBaseSpec())
                 .body(user)
                 .when()
-                .post(APIURL+"register/");
+                .post(APIURL + "register/");
     }
 
     @Step("Регистрация пользователя без почты")
-    public Response createWithOutEmail(User user){
+    public Response createWithOutEmail(User user) {
         String body = "{\"password\":\"" + user.password + "\","
                 + "\"name\":\"" + user.name + "\"}";
 
-        return  given()
+        return given()
                 .spec(getBaseSpec())
                 .body(body)
                 .when()
-                .post(APIURL+"register/");
+                .post(APIURL + "register/");
     }
 
     @Step("Регистрация пользователя без пароля")
-    public Response createWithOutPassword(User user){
+    public Response createWithOutPassword(User user) {
         String body = "{\"email\":\"" + user.email + "\","
                 + "\"name\":\"" + user.name + "\"}";
         return given()
                 .spec(getBaseSpec())
                 .body(body)
                 .when()
-                .post(APIURL+"register/");
+                .post(APIURL + "register/");
     }
 
     @Step("Регистрация пользователя без имени")
-    public Response createWithOutName(User user){
+    public Response createWithOutName(User user) {
         String body = "{\"email\":\"" + user.email + "\","
                 + "\"password\":\"" + user.password + "\"}";
         return given()
                 .spec(getBaseSpec())
                 .body(body)
                 .when()
-                .post(APIURL+"register/");
+                .post(APIURL + "register/");
     }
 
     @Step("Авторизация пользователя")
@@ -58,7 +58,7 @@ public class UserClient extends BaseSpec {
                 .spec(getBaseSpec())
                 .body(userData)
                 .when()
-                .post(APIURL+"login/");
+                .post(APIURL + "login/");
     }
 
     @Step("Авторизация пользователя с неверным логином и паролем")
@@ -67,7 +67,7 @@ public class UserClient extends BaseSpec {
                 .spec(getBaseSpec())
                 .body(userData)
                 .when()
-                .post(APIURL+"login/");
+                .post(APIURL + "login/");
     }
 
     @Step("Получение на accessToken после авторизации")
@@ -85,12 +85,12 @@ public class UserClient extends BaseSpec {
     }
 
     @Step("Регистрация и получение accessToken")
-    public String registrationAndGetAccessToken(User user){
+    public String registrationAndGetAccessToken(User user) {
         return given()
                 .spec(getBaseSpec())
                 .body(user)
                 .when()
-                .post(APIURL+"register/")
+                .post(APIURL + "register/")
                 .then()
                 .extract()
                 .path("accessToken")

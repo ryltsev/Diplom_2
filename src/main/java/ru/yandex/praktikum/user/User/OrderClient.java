@@ -8,10 +8,10 @@ import static io.restassured.RestAssured.given;
 
 public class OrderClient extends BaseSpec {
 
-    public final static String APIURL = "/api/orders/";
+    public final static String APIURL = "/orders/";
 
     @Step("Создание заказа с авторизацией")
-    public Response newOrderWithAuthorization(String ingredient, String accessToken){
+    public Response newOrderWithAuthorization(String ingredient, String accessToken) {
         String orderRequest = "{\"ingredients\": \"" + ingredient + "\"}";
         return given()
                 .spec(getBaseSpec())
@@ -21,8 +21,8 @@ public class OrderClient extends BaseSpec {
                 .post(APIURL);
     }
 
-    @Step ("Создание заказа без авторизации")
-    public Response newOrderWithoutAuthorization(String ingredient){
+    @Step("Создание заказа без авторизации")
+    public Response newOrderWithoutAuthorization(String ingredient) {
         String orderRequest = "{\"ingredients\": \"" + ingredient + "\"}";
         return given()
                 .spec(getBaseSpec())
@@ -31,8 +31,8 @@ public class OrderClient extends BaseSpec {
                 .post(APIURL);
     }
 
-    @Step ("Создание заказа без ингридиентов")
-    public Response newOrderWithoutIngredients(String accessToken){
+    @Step("Создание заказа без ингридиентов")
+    public Response newOrderWithoutIngredients(String accessToken) {
         return given()
                 .spec(getBaseSpec())
                 .headers("Authorization", accessToken)
@@ -40,16 +40,17 @@ public class OrderClient extends BaseSpec {
                 .post(APIURL);
     }
 
-    @Step ("Получение заказов авторизованного пользователя")
-    public Response getOrdersList (String accessToken) {
+    @Step("Получение заказов авторизованного пользователя")
+    public Response getOrdersList(String accessToken) {
         return given()
                 .spec(getBaseSpec())
                 .headers("Authorization", accessToken)
                 .when()
-                .get(APIURL+ "all");
+                .get(APIURL + "all");
     }
-    @Step ("Получение заказов не авторизованного пользовалетя")
-    public Response getOrdersListWithoutUserAuthorization () {
+
+    @Step("Получение заказов не авторизованного пользовалетя")
+    public Response getOrdersListWithoutUserAuthorization() {
         return given()
                 .spec(getBaseSpec())
                 .when()

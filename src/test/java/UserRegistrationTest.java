@@ -1,21 +1,47 @@
 import io.qameta.allure.junit4.DisplayName;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import ru.yandex.praktikum.user.BaseSpec;
 import ru.yandex.praktikum.user.User.User;
 import ru.yandex.praktikum.user.User.UserClient;
 
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public class UserRegistrationTest {
+public class UserRegistrationTest extends BaseSpec {
 
+    public String accessToken;
     private User user;
     private UserClient userClient;
 
+    public String getAccessToken() {
+        {
+            return accessToken;
+        }
+    }
+
     @Before
-    public void SetUp() {
+    public void setUp() {
         user = User.getRandom();
         userClient = new UserClient();
+
     }
+
+    @After
+    public void delete() {
+        if (getAccessToken() == null) {
+            return;
+        }
+        given()
+                .spec(getBaseSpec())
+                .auth().oauth2(getAccessToken().substring(7))
+                .when()
+                .delete("auth/user")
+                .then()
+                .statusCode(202);
+    }
+
 
     @Test
     @DisplayName("Регистрация нового пользователя")

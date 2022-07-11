@@ -6,7 +6,7 @@ import ru.yandex.praktikum.user.BaseSpec;
 import static io.restassured.RestAssured.given;
 
 public class IngredientClient extends BaseSpec {
-    public final static String APIURL = "/api/ingredients/";
+    public final static String APIURL = "/ingredients/";
     public final static String Type = "Content-type";
     public final static String APP = "application/json";
 

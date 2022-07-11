@@ -1,18 +1,28 @@
 import io.qameta.allure.junit4.DisplayName;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import ru.yandex.praktikum.user.BaseSpec;
 import ru.yandex.praktikum.user.User.*;
 
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
-public class OrderTest {
+public class OrderTest extends BaseSpec {
 
+    public String accessToken;
     private UserClient userClient;
     private OrderClient orderClient;
     private IngredientClient ingredientClient;
     private User user;
-    private UserData userData;
+
+    public String getAccessToken() {
+        {
+            return accessToken;
+        }
+    }
+
 
     @Before
     public void setUp() {
@@ -20,6 +30,20 @@ public class OrderTest {
         orderClient = new OrderClient();
         ingredientClient = new IngredientClient();
         user = User.getRandom();
+    }
+
+    @After
+    public void delete() {
+        if (getAccessToken() == null) {
+            return;
+        }
+        given()
+                .spec(getBaseSpec())
+                .auth().oauth2(getAccessToken().substring(7))
+                .when()
+                .delete("auth/user")
+                .then()
+                .statusCode(202);
     }
 
     @Test
